@@ -68,16 +68,16 @@ def _calculate_sigmas_hijack(model_sampling, scheduler_name, steps):
         sigmas = calculate_sigmas_original(model_sampling, scheduler_name, steps)
     return sigmas
 
-
 def hijack_schedulers():
-    if calculate_sigmas_original == _calculate_sigmas_hijack:
+    if comfy.samplers.calculate_sigmas == _calculate_sigmas_hijack:
         raise RuntimeError("Schedulers are already hijacked")
-
+    
     SCHEDULER_NAMES.append(AYS_SCHEDULER)
     SCHEDULER_NAMES.append(AYS_PLUS_SCHEDULER)
     SCHEDULER_NAMES.append(AYS_30_SCHEDULER)
     SCHEDULER_NAMES.append(AYS_30_PLUS_SCHEDULER)
     SCHEDULER_NAMES.append(GITS_SCHEDULER)
     SCHEDULER_NAMES.append(BETA_1_1_SCHEDULER)
-
+    
     comfy.samplers.calculate_sigmas = _calculate_sigmas_hijack
+
